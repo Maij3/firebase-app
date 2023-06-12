@@ -1,4 +1,5 @@
 import { checkingCredentials, login, logout } from "./authSlice";
+import { signIn } from "next-auth/react";
 import {
   logoutFirebase,
   singInWithGoogle,
@@ -35,13 +36,19 @@ export const startLogout = () => {
 //----StartCreatingUserWithEmailPassword----//
 export const startCreatingUserWithEmailPassword = (
   email: string,
-  password: string,
+  password: any,
   displayName: string
 ) => {
   return async (dispach: any) => {
     dispach(checkingCredentials());
-    const { ok, uid, photoURL, errorMessage , registerErrorMessage } =
+    const { ok, uid, photoURL, errorMessage, registerErrorMessage } =
       await registerUserWithEmailPassword(email, password, displayName);
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: "/",
+    });
     if (!ok) return dispach(logout({ registerErrorMessage }));
     dispach(login({ uid, displayName, email, photoURL }));
   };
@@ -55,10 +62,8 @@ export const startLoginWithEmailPassword = (
   return async (dispach: any) => {
     dispach(checkingCredentials());
     const result = await loginWithEmailPassword(email, password);
-    console.log(result)
+    console.log(result);
     if (!result.ok) return dispach(logout(result));
     dispach(login(result));
   };
 };
-
-

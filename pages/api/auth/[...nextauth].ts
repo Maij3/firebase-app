@@ -31,6 +31,7 @@ export default NextAuth({
           crendetials?.email,
           crendetials?.password
         );
+        
         const { ok, uid, photoURL, displayName } = resp;
         if (ok) {  
           return {

@@ -4,9 +4,13 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
+import { signIn, useSession } from "next-auth/react";
 
 export const AuthRegister = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { update } = useSession();
+  const router = useRouter();
   const registerErrorMessage = useTypedSelector(
     (state: RootState) => state.auth.registerErrorMessage
   );
@@ -16,15 +20,14 @@ export const AuthRegister = () => {
       password: "",
       displayName: "",
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       dispatch(
         startCreatingUserWithEmailPassword(
           values.email,
           values.password,
-          values.displayName,
+          values.displayName
         )
       );
-      console.log(values.password)
     },
     validationSchema: Yup.object({
       displayName: Yup.string().required("Required"),
@@ -32,9 +35,9 @@ export const AuthRegister = () => {
         .email("Email does have a valid formart")
         .required("Required"),
       password: Yup.string()
-/*         .min(8, "Password is too short - should be 8 chars minium.")
+        .min(8, "Password is too short - should be 8 chars minium.")
         .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
-        .required("Required"), */
+        .required("Required"),
     }),
   });
 
@@ -80,7 +83,9 @@ export const AuthRegister = () => {
             <span style={{ color: "red" }}>{errors.password}</span>
           )}
         </div>
-        {registerErrorMessage && <div className="alert" >{registerErrorMessage}</div>}
+        {registerErrorMessage && (
+          <div className="alert">{registerErrorMessage}</div>
+        )}
         <button type="submit" className="btn-styles">
           Submit
         </button>

@@ -1,7 +1,10 @@
 import { Navbar } from "flowbite-react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export const NavbarMenu = () => {
+  const { data: session } = useSession();
+
   return (
     <Navbar fluid={true} rounded={true} className="shadow">
       <Link href={"/"}>
@@ -11,8 +14,9 @@ export const NavbarMenu = () => {
       </Link>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        <Link href="/login">Login </Link>
-        <Link href={"/register"}>Register</Link>
+        {session?.user && <p>{session.user.name}</p>}
+        {!session?.user && <Link href="/login">Login </Link>}
+        {!session?.user && <Link href={"/register"}>Register</Link>}
       </Navbar.Collapse>
     </Navbar>
   );
