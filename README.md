@@ -24,6 +24,7 @@ Antes de comenzar con este proyecto, asegúrate de tener instalado lo siguiente:
 Sigue estos pasos para configurar y ejecutar el proyecto:
 
 1. Clona este repositorio o descarga los archivos en tu máquina local.
+
 2. En la raíz del proyecto, crea un archivo `.env.local` y configura las siguientes variables de entorno:
 
   NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
@@ -33,9 +34,28 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
   NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
   NEXTAUTH_URL=http://localhost:3000
+  NEXTAUTH_SECRET = your-secret
 
 3. Reemplaza los valores `your-api-key`, `your-auth-domain`, etc., con las credenciales de tu proyecto de Firebase. Puedes encontrar estas credenciales en la configuración de tu proyecto de Firebase en la consola de Firebase.
-4. Abre una terminal en la carpeta del proyecto y ejecuta `npm install` para instalar las dependencias.
-5. Ejecuta `npm run dev` para iniciar el servidor de desarrollo local.
+
+4. Abre una terminal en la carpeta del proyecto y ejecuta
+ ```shell 
+    npm install
+ ``` 
+ para instalar las dependencias.
+
+5. Ejecuta
+ ```shell
+    npm run dev
+ ```
+ para iniciar el servidor de desarrollo local.
+
 6. Abre tu navegador y ve a `http://localhost:3000` para ver la aplicación en funcionamiento.
 
+7. Antes de ejecutar el proyecto, asegúrate de haber completado los pasos de configuración mencionados anteriormente.
+
+8. En la terminal, dentro de la carpeta del proyecto, ejecuta el siguiente comando: npm run dev.
+
+9. Espera a que el servidor de desarrollo se inicie correctamente. Verás un mensaje indicando que el servidor está listo y escuchando en http://localhost:3000.
+
+10. Abre tu navegador web y visita http://localhost:3000 para ver la aplicación en funcionamiento.
