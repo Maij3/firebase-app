@@ -14,7 +14,7 @@ export const NavbarMenu = () => {
       </Link>
       <Navbar.Toggle />
       <Navbar.Collapse>
-        {session?.user && <p>{session.user.name}</p>}
+        {session?.user && <p>{session.user.name} | {session.user.role}</p>}
         {!session?.user && <Link href="/login">Login </Link>}
         {!session?.user && <Link href={"/register"}>Register</Link>}
       </Navbar.Collapse>

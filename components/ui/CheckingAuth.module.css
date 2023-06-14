@@ -1,6 +1,6 @@
 .checkingauth {
   min-height: 100vh;
-  background: black;
+  background: #eee;
   padding: 4px;
   display: flex;
   flex-direction: column;

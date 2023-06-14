@@ -7,6 +7,7 @@ const initialState: AuthState = {
   email: null,
   displayName: null,
   photoURL: null,
+  role: null,
   errorMessage: null,
   registerErrorMessage: null,
   token: null,
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
       state.displayName = payload?.displayName;
       state.photoURL = payload.photoURL;
       state.errorMessage = null;
+      state.role = payload.role
     },
     //Logout State
     logout: (state, { payload }: PayloadAction<AuthState>) => {

@@ -4,6 +4,7 @@ export interface AuthState {
   email?: string | null;
   displayName?: string | null;
   photoURL?: string | null;
+  role?: string | null 
   errorMessage?: string | null;
   registerErrorMessage? :string | null;
   token?: string | null;

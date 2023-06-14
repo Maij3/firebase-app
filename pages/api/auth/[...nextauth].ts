@@ -3,13 +3,24 @@ import Credentials from "next-auth/providers/credentials";
 import { DefaultUser } from "next-auth";
 import { loginWithEmailPassword } from "@/firebase/providers";
 import { User } from "next-auth";
+import Image from "next/image";
+import { Session } from "next-auth";
+import { loadUsers } from "@/helpers/loadUsers";
 
-interface UserConfig extends User {
-  ok: boolean;
-  photoURL: string | null | undefined;
-  displayName: string | null | undefined;
+interface CustomUser extends Session {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null | undefined;
+  uid: string | null | undefined;
+  role: string | null | undefined;
 }
 
+declare module "next-auth" {
+  interface Session {
+    user: CustomUser;
+  }
+}
 export default NextAuth({
   providers: [
     Credentials({
@@ -31,14 +42,15 @@ export default NextAuth({
           crendetials?.email,
           crendetials?.password
         );
-        
+
         const { ok, uid, photoURL, displayName } = resp;
-        if (ok) {  
+        if (ok) {
           return {
-            id: `${uid}`,
+            id: uid!,
             name: displayName,
             image: photoURL,
-            email: crendetials?.email
+            uid,
+            email: crendetials?.email,
           };
         } else {
           return null;
@@ -48,17 +60,27 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, account, user }) {
-      if(account){
+      if (account) {
         token.accessToken = account.access_token;
         token.user = user;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token, user }) {
+      const resp = await loadUsers();
+      let role = "";
+      const byId = resp.filter((item: any) => {
+        if (item.id === token.sub) {
+          role = item.role;
+          console.log(item.role);
+        }
+      });
+      session.user.uid = token.sub;
+      session.user.role = role;
       return session;
     },
   },
   pages: {
-    signIn: "/login"
-  }
+    signIn: "/login",
+  },
 });
