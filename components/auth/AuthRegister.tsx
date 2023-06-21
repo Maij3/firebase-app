@@ -64,7 +64,7 @@ export const AuthRegister = () => {
           <h2>Register</h2>
           <form onSubmit={handleSubmit}>
             <div className="grid md:grid-cols-2 md:gap-6">
-              <div className="relative z-0 w-full mb-6 group">
+              <div className="relative z-0 w-full mb-12 group">
                 <input
                   type="text"
                   id="floating_first_name"
@@ -76,7 +76,7 @@ export const AuthRegister = () => {
                   <span style={{ color: "red" }}>{errors.displayName}</span>
                 )}
               </div>
-              <div className="relative z-0 w-full mb-6 group">
+              <div className="relative z-0 w-full mb-12 group">
                 <input
                   type="email"
                   id="floating_email"
@@ -88,7 +88,7 @@ export const AuthRegister = () => {
                   <span style={{ color: "red" }}>{errors.email}</span>
                 )}
               </div>
-              <div className="relative z-0 w-full mb-6 group">
+              <div className="relative z-0 w-full mb-12 group">
                 <input
                   type="password"
                   id="floating_password"
@@ -103,7 +103,7 @@ export const AuthRegister = () => {
               {registerErrorMessage && (
                 <div className="alert">{registerErrorMessage}</div>
               )}
-              <div className="relative z-0 w-full mb-6 group">
+              <div className="relative z-0 w-full mb-12 group">
                 <input
                   type="password"
                   id="floating_password"

@@ -17,8 +17,6 @@ export default function Home() {
   const { data: session, status } = useSession();
   const dispatch = useDispatch<AppDispatch>();
   const user = session?.user;
-
-
   useEffect(() => {
     if (status === "authenticated") {
       dispatch(

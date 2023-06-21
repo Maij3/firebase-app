@@ -27,13 +27,6 @@ Sigue estos pasos para configurar y ejecutar el proyecto:
 
 2. En la raíz del proyecto, crea un archivo `.env.local` y configura las siguientes variables de entorno:
 
-  NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
-  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-auth-domain
-  NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-storage-bucket
-  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
-  NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
-  NEXTAUTH_URL=http://localhost:3000
   NEXTAUTH_SECRET = your-secret
 
 3. Reemplaza los valores `your-api-key`, `your-auth-domain`, etc., con las credenciales de tu proyecto de Firebase. Puedes encontrar estas credenciales en la configuración de tu proyecto de Firebase en la consola de Firebase.

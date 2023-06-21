@@ -11,7 +11,7 @@ export const useChecking = () => {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     onAuthStateChanged(FirebaseAuth, async (user) => {
-      console.log({ user });
+     // console.log({ user });
       if (!user) return dispatch(logout({errorMessage}));
       const { uid, email, displayName, photoURL } = user;
       dispatch(login({uid, email, displayName, photoURL,}));

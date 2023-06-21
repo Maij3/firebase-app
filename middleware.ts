@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 
 export async function middleware(req: NextRequest) {
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  console.log({session})
+  //console.log({session})
   //return NextResponse.redirect(new URL('/login' , req.url))
   if (!session) {
     const requestedPage = req.nextUrl.pathname;

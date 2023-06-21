@@ -5,7 +5,6 @@ export const loadUser = async () => {
   const collectionRef = collection(FirebaseDB, `usuarios`);
   const docs = await getDocs(collectionRef);
   const users: { id: string }[] = [];
-  console.log({users})
   docs.forEach((doc) => {
     users.push({ id: doc.id, ...doc.data() });
   });

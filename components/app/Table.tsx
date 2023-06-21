@@ -1,24 +1,46 @@
 import { useTypedSelector } from "@/hooks";
-import { RootState } from "@/store/store";
+import { AppDispatch, RootState } from "@/store/store";
+import { startDeletingNote } from "@/store/users/thunks";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { use } from "react";
+import { use, useEffect } from "react";
 import React from "react";
+import { useDispatch } from "react-redux";
+import firebase from "firebase/app";
+import "firebase/auth";
+import { FirebaseApp, FirebaseAuth } from "@/firebase/config";
+import { deleteUser } from "firebase/auth";
+import { useSession } from "next-auth/react";
 
 export const Table = () => {
+  const { data: session, status } = useSession();
   const users = useTypedSelector((state: RootState) => state.users.users);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const user = session?.user;
+
   const onClick = (uid: string) => {
     router.push(`/user/${uid}`);
   };
 
+  const onDelete = async (uid: any) => {
+    dispatch(startDeletingNote(uid));
+    try {
+    } catch (error) {
+      console.error;
+    }
+  };
+
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg p-5 ">
+    <div className="relative overflow-auto shadow-md sm:rounded-lg p-5 ">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             {users.map((user: any, key: any) => {
-              const attr = Object.keys(users[0]);
+              let attr = Object.keys(users[0]);
+              attr.splice(attr.indexOf("phone"), 1);
+              attr.splice(attr.indexOf("message"), 1);
+              attr.splice(attr.indexOf("birthdate"), 1);
               return (
                 <React.Fragment key={key}>
                   {attr.map((value: any) => {
@@ -49,8 +71,7 @@ export const Table = () => {
               </th>
               <td className="px-6 py-4">{user.role}</td>
               <td className="px-6 py-4">{user.email}</td>
-              <td></td>
-              <td></td>
+              <td className="px-6 py-4">{user.name}</td>
               <td className="px-6 py-4 flex">
                 <div onClick={() => onClick(user.id)}>
                   <svg
@@ -69,26 +90,25 @@ export const Table = () => {
                     ></path>
                   </svg>
                 </div>
-                <Link
-                  href="/"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                    className="w-10"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                    ></path>
-                  </svg>
-                </Link>
+                {user.role  === "guest" && (
+                  <div onClick={() => onDelete(user.id)}>
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      className="w-10"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                      ></path>
+                    </svg>
+                  </div>
+                )}
               </td>
             </tr>
           ))}
